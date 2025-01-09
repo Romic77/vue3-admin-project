@@ -298,11 +298,91 @@ module.exports = {
 
 ```
 
-
 # 配置husky
+
 git 仓库提交之前执行命令，如代码格式化等
 
 ## 配置与安装
 pnpm install -D husky
 执行
 npx husky-init
+
+###　pre-commit
+```
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+pnpm run format
+
+```
+
+# 配置commitlint
+git commit提交规范
+
+## 安装包
+`pnpm add @commitlint/config-conventional @commitlint/cli -D`
+
+添加配置文件,新建commitlint.config.cjs
+```
+module.exports = {
+  ignores: [(commit) => commit.includes('init')],
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'body-leading-blank': [2, 'always'],
+    'footer-leading-blank': [1, 'always'],
+    'header-max-length': [2, 'always', 108],
+    'subject-empty': [2, 'never'],
+    'type-empty': [2, 'never'],
+    'subject-case': [0],
+  },
+}
+
+```
+
+package.json中配置scripts命令
+```
+"scripts": {
+    "commitlint": "commitlint --config commitlint.config.cjs -e -V"
+  }
+```
+配置结束,填写commit信息,需要添加subject
+```
+build：主要目的是修改项目构建系统(例如 glup，webpack，rollup 的配置等)的提交
+ci：主要目的是修改项目继续集成流程(例如 Travis，Jenkins，GitLab CI，Circle等)的提交
+docs：文档更新
+feat：新增功能
+fix：bug 修复
+perf：性能优化
+refactor：重构代码(既没有新增功能，也没有修复 bug)
+style：不影响程序逻辑的代码修改(修改空白字符，补全缺失的分号等)
+test：新增测试用例或是更新现有测试
+revert：回滚某个更早之前的提交
+chore：不属于以上类型的其他类型(日常事务)
+```
+
+配置husky
+
+```
+npx husky add .husky/commit-msg
+```
+
+commit-msg中添加命令
+
+```
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+pnpm commitlint
+```
+
+
+
+以后commit提交信息需要添加类型
+
+```
+git commit -m 'feat: 增加 xxx 功能'
+git commit -m 'bug: 修复 xxx 功能'
+```
+
+
+

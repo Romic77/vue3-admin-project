@@ -3,5 +3,11 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": "./", //解析非相对模块的基地址，默认是当前目录
+    "paths": {
+      "@/*": ["src/*"] //映射路径
+    }
+  }
 }

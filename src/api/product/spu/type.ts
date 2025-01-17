@@ -23,7 +23,7 @@ export interface SpuData {
 
 export type Records = SpuData[]
 
-export interface HasSpuResponseData extends ResponseData {
+export interface SpuResponseData extends ResponseData {
   data: {
     records: Records
     total: number

@@ -52,7 +52,18 @@ import useCategoryStore from '@/store/modules/category'
 import { onMounted, ref } from 'vue'
 let categoryStore = useCategoryStore()
 
+// 重置选择值的方法
+const resetCategorySelections = () => {
+  categoryStore.c1Id = ''
+  categoryStore.c2Id = ''
+  categoryStore.c3Id = ''
+  categoryStore.c1Arr = []
+  categoryStore.c2Arr = []
+  categoryStore.c3Arr = []
+}
+
 onMounted(() => {
+  resetCategorySelections()
   getC1()
 })
 
